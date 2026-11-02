@@ -1,0 +1,18 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="page foot__inner">
+    <p class="foot__copy">
+      © {year} {site.name} · {site.footer.note}
+    </p>
+    <div class="foot__links">
+      {site.socials.map((s) => (
+        <a href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a>
+      ))}
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+  </div>
+</footer>

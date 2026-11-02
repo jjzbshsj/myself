@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SideNav from '../../components/SideNav.astro';
+import ProfileCard from '../../components/ProfileCard.astro';
+import HotPosts from '../../components/HotPosts.astro';
+import PostCard from '../../components/PostCard.astro';
+import Cta from '../../components/Cta.astro';
+import { site } from '../../data/site';
+import { getCollection } from 'astro:content';
+import { readingTime } from '../../utils/reading';
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const rt = new Map(posts.map((p) => [p.id, readingTime(p.body ?? '')]));
+---
+
+<BaseLayout
+  title={`文章 — ${site.name}`}
+  description="全部技术文章：性能优化、可访问性、工程实践与 Canvas 渲染。"
+>
+  <div class="shell">
+    <aside class="side-left"><SideNav /></aside>
+
+    <div class="content">
+      <div class="content-head">
+        <h1>文章</h1>
+        <p>共 {posts.length} 篇 · 按时间倒序</p>
+      </div>
+
+      {posts.length === 0 ? (
+        <p style="color:var(--secondary)">还没有文章。</p>
+      ) : (
+        posts.map((p) => <PostCard post={p} readingTime={rt.get(p.id) ?? 1} />)
+      )}
+
+      <Cta />
+    </div>
+
+    <aside class="side-right">
+      <ProfileCard />
+      <HotPosts />
+    </aside>
+  </div>
+</BaseLayout>

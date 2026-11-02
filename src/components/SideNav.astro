@@ -1,0 +1,42 @@
+---
+import { site } from '../data/site';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft));
+
+// 分类计数：某分类命中其任一映射标签即计数
+const categories = site.categories.map((c: { readonly label: string; readonly tags: readonly string[] }) => ({
+  label: c.label,
+  count: posts.filter((p) => p.data.tags.some((t) => c.tags.includes(t))).length,
+  // 主标签（用于链接到标签页）
+  primaryTag: c.tags[0],
+}));
+
+// 标签云：所有唯一标签 + 计数
+const tagCounts = new Map<string, number>();
+for (const p of posts) {
+  for (const t of p.data.tags) {
+    tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+  }
+}
+const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<div class="side-box">
+  <h4>分类</h4>
+  {categories.map((c) => (
+    <a class="side-link" href={`/writing/tag/${encodeURIComponent(c.primaryTag)}/`}>
+      {c.label}
+      <span class="cnt">{c.count}</span>
+    </a>
+  ))}
+</div>
+
+<div class="side-box">
+  <h4>标签云</h4>
+  <div class="tag-cloud">
+    {tags.map(([tag, count]) => (
+      <a href={`/writing/tag/${encodeURIComponent(tag)}/`}>{tag}<span style="opacity:.6;margin-left:3px">{count}</span></a>
+    ))}
+  </div>
+</div>

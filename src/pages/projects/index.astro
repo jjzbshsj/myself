@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectNav from '../../components/ProjectNav.astro';
+import ProfileCard from '../../components/ProfileCard.astro';
+import HotPosts from '../../components/HotPosts.astro';
+import { projects } from '../../data/projects';
+import { site } from '../../data/site';
+---
+
+<BaseLayout
+  title={`项目 — ${site.name}`}
+  description={`${site.name}的 ${projects.length} 个长期维护项目，每个都附技术栈、指标与复盘。`}
+>
+  <div class="shell">
+    <aside class="side-left"><ProjectNav /></aside>
+
+    <div class="content">
+      <div class="content-head">
+        <h1>项目</h1>
+        <p>共 {projects.length} 个 · 每个都附技术栈、指标与复盘</p>
+      </div>
+
+      {projects.map((p) => (
+        <article class="proj-card">
+          <p class="meta"><span>{p.badge}</span></p>
+          <h2><a href={`/projects/${p.slug}/`}>{p.name}</a></h2>
+          <p class="kind">{p.kind}</p>
+          <p class="desc">{p.summary}</p>
+          <div class="metrics">
+            {p.metrics.map((m) => (
+              <span class="metric"><b>{m.value}</b>{m.label && ` ${m.label}`}</span>
+            ))}
+          </div>
+          <div class="stack">
+            {p.stack.map((s) => <span>{s}</span>)}
+          </div>
+          <div class="actions">
+            {p.links.demo && (
+              <a class="primary" href={p.links.demo} target="_blank" rel="noopener noreferrer">在线 Demo ↗</a>
+            )}
+            {p.links.repo && (
+              <a class="ghost" href={p.links.repo} target="_blank" rel="noopener noreferrer">源码 ↗</a>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <aside class="side-right">
+      <ProfileCard />
+      <HotPosts />
+    </aside>
+  </div>
+</BaseLayout>

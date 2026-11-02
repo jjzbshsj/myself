@@ -1,0 +1,39 @@
+---
+import { site } from '../data/site';
+import { projects } from '../data/projects';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<div class="profile">
+  <div class="avatar-lg">
+    <img src="/avatar.svg" alt="" width="64" height="64" />
+  </div>
+  <h3>{site.name}</h3>
+  <p class="role">{site.role}</p>
+  <p class="bio">{site.tagline}</p>
+  <div class="stats">
+    <div class="stat">
+      <div class="v">{site.years}</div>
+      <div class="l">年经验</div>
+    </div>
+    <div class="stat">
+      <div class="v">{posts.length}</div>
+      <div class="l">篇文章</div>
+    </div>
+    <div class="stat">
+      <div class="v">{projects.length}</div>
+      <div class="l">个项目</div>
+    </div>
+  </div>
+  <div class="links">
+    {site.socials.map((s) => (
+      <a href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a>
+    ))}
+    <a href={`mailto:${site.email}`}>Email</a>
+    <a href="/rss.xml">RSS</a>
+  </div>
+</div>

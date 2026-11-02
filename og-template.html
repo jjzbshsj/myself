@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    width: 1200px; height: 630px;
+    background: #fff;
+    font-family: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #111827;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    padding: 72px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, #F3F4F6 1px, transparent 1px),
+      linear-gradient(to bottom, #F3F4F6 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(circle at 78% 30%, #000 0%, transparent 62%);
+    -webkit-mask-image: radial-gradient(circle at 78% 30%, #000 0%, transparent 62%);
+  }
+  .top { display: flex; align-items: center; gap: 14px; position: relative; }
+  .mark {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: linear-gradient(135deg, #1D4ED8, #3B82F6);
+    color: #fff; display: grid; place-items: center;
+    font-size: 21px; font-weight: 600;
+  }
+  .name { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .role { font-size: 16px; color: #6B7280; padding-left: 14px; border-left: 1px solid #E5E7EB; }
+  .mid { position: relative; }
+  .status {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 15px; font-weight: 500; color: #14532D;
+    background: #F0FDF4; border: 1px solid #BBF7D0;
+    border-radius: 999px; padding: 6px 14px 6px 12px;
+    margin-bottom: 28px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #16A34A; }
+  h1 {
+    font-size: 62px; line-height: 1.16; letter-spacing: -0.032em;
+    font-weight: 700; max-width: 15em;
+  }
+  h1 em { font-style: normal; color: #1D4ED8; }
+  .sub { font-size: 22px; color: #4B5563; margin-top: 22px; line-height: 1.6; }
+  .bot {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    position: relative; border-top: 1px solid #E5E7EB; padding-top: 26px;
+  }
+  .stats { display: flex; gap: 40px; }
+  .stat b { display: block; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: 14px; color: #6B7280; }
+  .url { font-size: 17px; color: #1D4ED8; font-weight: 500; }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="top">
+    <div class="mark">林</div>
+    <div class="name">林辰</div>
+    <div class="role">前端 / 全栈工程师</div>
+  </div>
+  <div class="mid">
+    <div class="status"><span class="dot"></span>开放 2026 年 7 月入职 · 接受远程</div>
+    <h1>我把复杂界面做得<em>又快又稳</em>。</h1>
+    <p class="sub">三个长期维护的线上项目，指标都是自己测的。</p>
+  </div>
+  <div class="bot">
+    <div class="stats">
+      <div class="stat"><b>3</b><span>线上项目</span></div>
+      <div class="stat"><b>≥95</b><span>Lighthouse</span></div>
+      <div class="stat"><b>0</b><span>客户端 JS</span></div>
+    </div>
+    <div class="url">linchen.dev</div>
+  </div>
+</body>
+</html>

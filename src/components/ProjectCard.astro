@@ -1,0 +1,43 @@
+---
+import ProjectShot from './ProjectShot.astro';
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  total: number;
+  /** 标题层级：首页区块内用 3，列表页（只有 h1）用 2 */
+  level?: 2 | 3;
+}
+
+const { project, total, level = 3 } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+---
+
+<a class="pcard" href={`/projects/${project.slug}/`}>
+  <div class="pcard__shot">
+    <span class="pcard__badge">{project.badge}</span>
+    <ProjectShot variant={project.shot} />
+  </div>
+
+  <div class="pcard__body">
+    <p class="pcard__idx">{project.index} / {String(total).padStart(2, '0')}</p>
+    <Heading class="pcard__name">
+      {project.name}
+      <span class="go" aria-hidden="true">→</span>
+    </Heading>
+    <p class="pcard__kind">{project.kind}</p>
+    <p class="pcard__desc">{project.summary}</p>
+
+    <div class="pcard__metrics">
+      {project.metrics.map((m) => (
+        <span class:list={['metric', { 'metric--key': m.key }]}>
+          <b>{m.value}</b>{m.label && ` ${m.label}`}
+        </span>
+      ))}
+    </div>
+
+    <div class="pcard__stack">
+      {project.stack.map((s) => <span class="tag">{s}</span>)}
+    </div>
+  </div>
+</a>

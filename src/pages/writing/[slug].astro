@@ -1,0 +1,82 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProfileCard from '../../components/ProfileCard.astro';
+import HotPosts from '../../components/HotPosts.astro';
+import Cta from '../../components/Cta.astro';
+import { site } from '../../data/site';
+import { readingTime } from '../../utils/reading';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth === 2);
+
+const d = post.data.date;
+const iso = d.toISOString().slice(0, 10);
+const display = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+const rt = readingTime(post.body ?? '');
+
+// 相关文章：同标签优先，否则取最新
+const all = (await getCollection('writing', ({ data }) => !data.draft)).filter(
+  (p) => p.id !== post.id,
+);
+const related = all
+  .filter((p) => p.data.tags.some((t) => post.data.tags.includes(t)))
+  .slice(0, 3);
+const relatedPosts = related.length >= 2 ? related : all.slice(0, 3);
+---
+
+<BaseLayout
+  title={`${post.data.title} — ${site.name}`}
+  description={post.data.summary}
+  type="article"
+  article={{ datePublished: iso, summary: post.data.summary }}
+>
+  <div class="shell">
+    <aside class="side-left">
+      {toc.length > 0 && (
+        <div class="side-box">
+          <h4>本页目录</h4>
+          {toc.map((h) => (
+            <a class="side-link" href={`#${h.slug}`}>{h.text}</a>
+          ))}
+        </div>
+      )}
+      <div class="side-box">
+        <h4>相关文章</h4>
+        {relatedPosts.map((p) => (
+          <a class="side-link" href={`/writing/${p.id}/`}>{p.data.title}</a>
+        ))}
+      </div>
+    </aside>
+
+    <div class="content">
+      <article>
+        <header class="post-head">
+          <div class="kicker">{post.data.tags.join(' · ')}</div>
+          <h1>{post.data.title}</h1>
+          <div class="meta">
+            <time datetime={iso}>{display}</time>
+            <span>{rt} 分钟</span>
+            <span>{post.data.tags.join(' / ')}</span>
+          </div>
+        </header>
+        <div class="prose">
+          <Content />
+        </div>
+      </article>
+
+      <Cta />
+    </div>
+
+    <aside class="side-right">
+      <ProfileCard />
+      <HotPosts />
+    </aside>
+  </div>
+</BaseLayout>

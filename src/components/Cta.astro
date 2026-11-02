@@ -1,0 +1,14 @@
+---
+import { site } from '../data/site';
+---
+
+<section class="subscribe" aria-label="订阅更新">
+  <div>
+    <h2>订阅更新</h2>
+    <p>新文章发布时通过 RSS 或邮件通知，不发广告、不追踪。</p>
+  </div>
+  <div class="actions">
+    <a class="btn btn--primary" href="/rss.xml">RSS 订阅</a>
+    <a class="btn btn--ghost" href={`mailto:${site.email}`}>发邮件</a>
+  </div>
+</section>

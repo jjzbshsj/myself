@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SideNav from '../../../components/SideNav.astro';
+import ProfileCard from '../../../components/ProfileCard.astro';
+import HotPosts from '../../../components/HotPosts.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { site } from '../../../data/site';
+import { getCollection } from 'astro:content';
+import { readingTime } from '../../../utils/reading';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing', ({ data }) => !data.draft);
+  const tags = new Set<string>();
+  posts.forEach((p) => p.data.tags.forEach((t) => tags.add(t)));
+  return [...tags].map((tag) => ({ params: { tag }, props: { tag } }));
+}
+
+const { tag } = Astro.props;
+const posts = (await getCollection('writing', ({ data }) => !data.draft))
+  .filter((p) => p.data.tags.includes(tag))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const rt = new Map(posts.map((p) => [p.id, readingTime(p.body ?? '')]));
+---
+
+<BaseLayout
+  title={`${tag} — ${site.name}`}
+  description={`${site.name}的「${tag}」标签文章，共 ${posts.length} 篇。`}
+>
+  <div class="shell">
+    <aside class="side-left"><SideNav /></aside>
+
+    <div class="content">
+      <div class="content-head">
+        <h1>标签：{tag}</h1>
+        <p>共 {posts.length} 篇</p>
+      </div>
+
+      {posts.length === 0 ? (
+        <p style="color:var(--secondary)">该标签下还没有文章。</p>
+      ) : (
+        posts.map((p) => <PostCard post={p} readingTime={rt.get(p.id) ?? 1} />)
+      )}
+    </div>
+
+    <aside class="side-right">
+      <ProfileCard />
+      <HotPosts />
+    </aside>
+  </div>
+</BaseLayout>

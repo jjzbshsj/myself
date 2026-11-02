@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>简历占位</title>
+<style>
+  @page { size: A4; margin: 16mm 18mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #111827; font-size: 10.5pt; line-height: 1.6;
+  }
+  .banner {
+    border: 2px solid #1D4ED8; border-radius: 8px;
+    padding: 14px 18px; margin-bottom: 22px; background: #EFF4FF;
+  }
+  .banner h1 { font-size: 15pt; letter-spacing: -0.02em; margin-bottom: 6px; color: #1D4ED8; }
+  .banner p { font-size: 9.5pt; color: #1E40AF; line-height: 1.6; }
+  .banner code { font-family: ui-monospace, Menlo, monospace; background: #fff; padding: 1px 4px; border-radius: 3px; }
+  h2 { font-size: 9pt; letter-spacing: 0.1em; text-transform: uppercase; color: #6B7280; margin: 18px 0 8px; border-bottom: 1px solid #E5E7EB; padding-bottom: 4px; }
+  .row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 2px; }
+  .role { font-weight: 600; font-size: 10.5pt; }
+  .when { color: #6B7280; font-size: 9pt; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .item { margin-bottom: 10px; }
+  ul { padding-left: 16px; margin-top: 3px; }
+  li { margin-bottom: 2px; color: #374151; }
+  .hint { color: #9CA3AF; font-style: italic; }
+</style>
+</head>
+<body>
+  <div class="banner">
+    <h1>这是占位文件，请替换成你的真实简历</h1>
+    <p>
+      站点里所有 <code>Résumé</code> 与「下载简历 PDF」按钮都指向 <code>/resume.pdf</code>。
+      把你的简历导出成一页 PDF，覆盖 <code>public/resume.pdf</code> 即可，不需要改代码。
+      下面是一个建议的排版结构，可以直接参考。
+    </p>
+  </div>
+
+  <div class="row">
+    <div class="role" style="font-size:14pt">林辰</div>
+    <div class="when">hi@linchen.dev · linchen.dev</div>
+  </div>
+  <p style="color:#6B7280;font-size:9.5pt;margin-bottom:4px">前端 / 全栈工程师 · 2026 届 · 杭州 / 可远程</p>
+
+  <h2>求职意向</h2>
+  <p>前端或全栈工程师，2026 年 7 月起可入职，接受远程。</p>
+
+  <h2>项目经历</h2>
+  <div class="item">
+    <div class="row"><span class="role">Inkwell — 本地优先的 Markdown 笔记应用</span><span class="when">2024 — 至今</span></div>
+    <ul>
+      <li>接入 Yjs CRDT，实现断网编辑与自动合并冲突，替代「最后写入者胜」策略。</li>
+      <li>把首屏 JS 从 214 KB 压到 48 KB，LCP 从 2.8s 降到 1.1s；用 size-limit 把预算写进 CI。</li>
+      <li>1.2k GitHub star，约 300 人每周使用。</li>
+    </ul>
+  </div>
+  <div class="item">
+    <div class="row"><span class="role">Metric Deck — 实时数据看板</span><span class="when">2023 — 2024</span></div>
+    <ul>
+      <li>放弃图表库，手写 Canvas 坐标系与四叉树命中测试，十万数据点缩放稳定 60fps。</li>
+      <li>聚合与异常检测移入 Web Worker，主线程零阻塞；运行时依赖为 0。</li>
+      <li>支撑 2,000 周活，替代三张人工维护的 Excel。</li>
+    </ul>
+  </div>
+  <div class="item">
+    <div class="row"><span class="role">Prism UI — headless 无障碍组件库</span><span class="when">2023 — 至今</span></div>
+    <ul>
+      <li>32 个组件，axe-core 断言与键盘交互用例接入 CI，不通过无法合并。</li>
+      <li>0 个已知 a11y 违规，键盘覆盖率 100%，单组件平均 1.5 KB gzip。</li>
+    </ul>
+  </div>
+
+  <h2>工作经历</h2>
+  <div class="item">
+    <div class="row"><span class="role">某 SaaS 公司 · 前端工程师</span><span class="when">2022 — 2024</span></div>
+    <ul>
+      <li>负责数据看板与编辑器内核，首屏从 3.2s 优化到 1.1s。</li>
+    </ul>
+  </div>
+  <div class="item">
+    <div class="row"><span class="role">某外包团队 · 前端</span><span class="when">2021 — 2022</span></div>
+    <ul>
+      <li>交付十余个中小型项目，负责前端实现与上线。</li>
+    </ul>
+  </div>
+
+  <h2>技能</h2>
+  <p>TypeScript / React / Astro / Node.js · 性能优化（Core Web Vitals、包体积控制）· 可访问性（WCAG 2.2、axe）· 构建工具（Vite、CI/CD）</p>
+
+  <h2>教育</h2>
+  <p class="hint">学校 · 专业 · 学位 · 起止年份</p>
+</body>
+</html>

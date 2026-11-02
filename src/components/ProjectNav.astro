@@ -1,0 +1,17 @@
+---
+import { projects } from '../data/projects';
+
+const path = Astro.url.pathname.replace(/\/$/, '');
+---
+
+<div class="side-box">
+  <h4>项目</h4>
+  {projects.map((p) => {
+    const href = `/projects/${p.slug}/`;
+    const key = href.replace(/\/$/, '');
+    const active = path === key || path.startsWith(key + '/');
+    return (
+      <a class:list={['side-link', { 'is-active': active }]} href={href}>{p.name}</a>
+    );
+  })}
+</div>

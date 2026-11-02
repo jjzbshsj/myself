@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectNav from '../../components/ProjectNav.astro';
+import ProfileCard from '../../components/ProfileCard.astro';
+import HotPosts from '../../components/HotPosts.astro';
+import Cta from '../../components/Cta.astro';
+import { projects } from '../../data/projects';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return projects.map((p) => ({ params: { slug: p.slug }, props: { project: p } }));
+}
+
+const { project } = Astro.props;
+---
+
+<BaseLayout
+  title={`${project.name} — ${site.name}`}
+  description={project.detail.lead}
+>
+  <div class="shell">
+    <aside class="side-left"><ProjectNav /></aside>
+
+    <div class="content">
+      <article>
+        <header class="pdetail-head">
+          <a class="back-link" href="/projects/">← 全部项目</a>
+          <p class="meta"><span>{project.badge}</span></p>
+          <h1>{project.name}</h1>
+          <p class="pdetail-head__kind">{project.kind}</p>
+          <p class="pdetail-head__lead">{project.detail.lead}</p>
+        </header>
+
+        <div class="pdetail-block">
+          <h2>技术栈</h2>
+          <div class="stack">
+            {project.stack.map((s) => <span>{s}</span>)}
+          </div>
+        </div>
+
+        <div class="pdetail-block">
+          <h2>核心指标</h2>
+          <div class="metrics">
+            {project.metrics.map((m) => (
+              <div class="metric">
+                <div class="v">{m.value}</div>
+                <div class="l">{m.label || '指标'}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="pdetail-block">
+          <h2>问题</h2>
+          <p>{project.detail.problem}</p>
+        </div>
+
+        <div class="pdetail-block">
+          <h2>我做了什么</h2>
+          <ol class="action-list">
+            {project.detail.actions.map((a) => (
+              <li>
+                <h3>{a.title}</h3>
+                <p>{a.body}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="pdetail-block">
+          <h2>结果</h2>
+          <p>{project.detail.result}</p>
+        </div>
+
+        <div class="pdetail-block">
+          <div class="actions">
+            {project.links.demo && (
+              <a class="primary" href={project.links.demo} target="_blank" rel="noopener noreferrer">在线 Demo ↗</a>
+            )}
+            {project.links.repo && (
+              <a class="ghost" href={project.links.repo} target="_blank" rel="noopener noreferrer">源码 ↗</a>
+            )}
+          </div>
+        </div>
+      </article>
+
+      <Cta />
+    </div>
+
+    <aside class="side-right">
+      <ProfileCard />
+      <HotPosts />
+    </aside>
+  </div>
+</BaseLayout>
